@@ -11,8 +11,6 @@ import * as API from "../services/pixabay_api";
 
 import {AppWrapper} from "./App.styled"
 
-// const BACK_END_URL = 'https://pixabay.com/api/'
-// const API_KEY = '29743912-8e7685db13f3781653d214456'
 
 export const App = () => {
 
@@ -23,24 +21,6 @@ export const App = () => {
   const [currentLargeImageURL, setCurrentLargeImageURL] = useState(false);
   const [error, setError] = useState(null);
 
-  // state = {
-  //   query : "",
-  //   items: [],
-  //   page: 1,
-  //   isLoading: false,
-  //   currentLargeImageURL: '',
-  //   error: null,
-  // }
-
-  // async foundPicture(inputValue){
-  //   this.setState({loading: true})
-  //   const url = `${BACK_END_URL}/?key=${API_KEY}&q=${inputValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=12&page=1`
-  //   const response = await fetch(url);
-  //   const data = await response.json();
-  //   // console.log(data)
-  //   this.setState({ pictures: [...data.hits] });
-  //   this.setState({loading: false})
-  // }
 
   const onOpenLargeImg = (url) => {
     setCurrentLargeImageURL(url)
@@ -51,7 +31,6 @@ export const App = () => {
   }
 
   const onSubmit = (query) =>{
-    // console.log(query)
     if (query.trim().length === 0) {
       alert("Please, enter your request")
       return
@@ -70,8 +49,6 @@ export const App = () => {
     try {
       setIsLoading(true)
       const images = await API.loadImage(query, page);
-      // console.log(query)
-      // console.log(images)
       setItems(prevState => [...prevState, ...images])
       setIsLoading(false)
       
@@ -93,13 +70,6 @@ export const App = () => {
     }
   }, [query, page])
 
-  // componentDidUpdate (_, prevState) {
-  //   if(prevState.page !== this.state.page || prevState.query !== this.state.query) {
-  //     this.addPictures(this.state.query, this.state.page);
-  //   }
-  // }
-
-    // const {items, currentLargeImageURL, isLoading, error} = this.state;
     return(
       
       <AppWrapper>
@@ -114,7 +84,7 @@ export const App = () => {
 
         {isLoading && <Loader/>}
 
-        {items.length > 0 && <Button onLoadMore={onLoadMoreBtn} isLoading={isLoading}/>}
+        {items.length >= 12 && <Button onLoadMore={onLoadMoreBtn} isLoading={isLoading}/>}
         {currentLargeImageURL && <Modal onClose={toggleModal} url={currentLargeImageURL} />}
 
         {/* {this.state.isLoading && <Loader/>} */}
